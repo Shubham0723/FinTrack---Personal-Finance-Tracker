@@ -1,0 +1,25 @@
+.my-card{
+    box-shadow: var(--shadow);
+    margin: 1rem;
+    border-radius: 0.5rem;
+    max-width: 400px;  /* or Remove min-width/max-width and keep flex-basis: 0; */
+    flex: 1;
+}
+
+.ant-card-head-title{
+    margin: 0rem !important;
+    font-weight: 600;
+}
+
+.my-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem auto;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.my-card p{
+    margin: 0;
+}
