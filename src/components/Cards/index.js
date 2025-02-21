@@ -6,14 +6,14 @@ import Button from '../Button';
 
 function Cards({totalBalance,
   income,
-  expense,showExpenseModal, showIncomeModal}) {
+  expense,showExpenseModal, showIncomeModal, resetBalance}) {
   return (
     <div>
       <Row className='my-row'>
       <Card bordered={true} className='my-card'>
         <h2>Current Balance</h2>
         <p>₹{totalBalance}</p>
-        <Button text="Reset Balance" blue={true} />
+        <Button text="Reset Balance" blue={true} onClick={resetBalance} />
       </Card>
 
       <Card bordered={true} className='my-card'>

@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import Cards from '../components/Cards'
 import AddExpenseModal from '../components/Modals/addExpense';
 import AddIncomeModal from '../components/Modals/addIncome';
-import { addDoc, collection, getDocs, query } from 'firebase/firestore';
+import { deleteDoc, doc, addDoc, collection, getDocs, query } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { toast } from 'react-toastify';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -105,6 +105,31 @@ function Dashboard() {
     }
     setLoading(false);
   }
+
+  const resetBalance = async () => {
+    if (!user) return;
+  
+    try {
+      const q = query(collection(db, `users/${user.uid}/transactions`));
+      const querySnapshot = await getDocs(q);
+  
+      // Delete each document
+      querySnapshot.forEach(async (docSnapshot) => {
+        await deleteDoc(doc(db, `users/${user.uid}/transactions`, docSnapshot.id));
+      });
+  
+      // Reset the state
+      setTransactions([]);
+      setIncome(0);
+      setExpense(0);
+      setTotalBalance(0);
+  
+      toast.success("Balance Reset Successfully!");
+    } catch (error) {
+      console.error("Error resetting balance: ", error);
+      toast.error("Failed to reset balance.");
+    }
+  };
   
 
   return <div>
@@ -116,6 +141,7 @@ function Dashboard() {
       expense={expense}
       showExpenseModal={showExpenseModal}
       showIncomeModal={showIncomeModal}
+      resetBalance={resetBalance}
       />
     <AddExpenseModal
       isExpenseModalVisible={isExpenseModalVisible}
